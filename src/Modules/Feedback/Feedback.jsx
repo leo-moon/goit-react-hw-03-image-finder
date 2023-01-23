@@ -7,9 +7,6 @@ class Feedback extends Component {
     good: 0,
     neutral: 0,
     bad: 0,
-    // good: 5,
-    // neutral: 20,
-    // bad: 3,
   };
 
   changeState(feedback) {
@@ -18,21 +15,21 @@ class Feedback extends Component {
     });
   }
 
-  totalFeedback() {
+  countTotalFeedback() {
     const { good, neutral, bad } = this.state;
     const total = good + neutral + bad;
     return total;
   }
 
-  goodPercent() {
-    const total = this.totalFeedback();
+  countPositiveFeedbackPercentage() {
+    const total = this.countTotalFeedback();
     const value = ((this.state.good / total) * 100).toFixed(0);
     return Number(value);
   }
 
   render() {
     const { good, neutral, bad } = this.state;
-    const total = this.totalFeedback();
+    const total = this.countTotalFeedback();
     const element = !total ? (
       <p>No feedback given</p>
     ) : (
@@ -42,7 +39,7 @@ class Feedback extends Component {
         <p className={styles.feedback}>Bad: {bad}</p>
         <p className={styles.feedback}>Total: {total}</p>
         <p className={styles.feedback}>
-          Positive feedback: {this.goodPercent()}%
+          Positive feedback: {this.countPositiveFeedbackPercentage()}%
         </p>
       </>
     );
