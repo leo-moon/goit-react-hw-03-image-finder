@@ -4,13 +4,19 @@ import styles from './feedback.module.scss';
 
 class Feedback extends Component {
   state = {
-    // good: 0,
-    // neutral: 0,
-    // bad: 0,
-    good: 5,
-    neutral: 20,
-    bad: 3,
+    good: 0,
+    neutral: 0,
+    bad: 0,
+    // good: 5,
+    // neutral: 20,
+    // bad: 3,
   };
+
+  changeState(feedback) {
+    this.setState(stateValues => {
+      return { [feedback]: stateValues[feedback] + 1 };
+    });
+  }
 
   totalFeedback() {
     const { good, neutral, bad } = this.state;
@@ -45,9 +51,24 @@ class Feedback extends Component {
       <>
         <div>
           <h3 className={styles.title}>Please leave feedback</h3>
-          <button className={styles.btn}>Good</button>
-          <button className={styles.btn}>Neutral</button>
-          <button className={styles.btn}>Bad</button>
+          <button
+            onClick={() => this.changeState('good')}
+            className={styles.btn}
+          >
+            Good
+          </button>
+          <button
+            onClick={() => this.changeState('neutral')}
+            className={styles.btn}
+          >
+            Neutral
+          </button>
+          <button
+            onClick={() => this.changeState('bad')}
+            className={styles.btn}
+          >
+            Bad
+          </button>
           <p className={styles.stat}> Statistic </p>
         </div>
         {element}
