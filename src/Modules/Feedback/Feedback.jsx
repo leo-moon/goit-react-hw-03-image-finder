@@ -4,12 +4,12 @@ import styles from './feedback.module.scss';
 
 class Feedback extends Component {
   state = {
-    good: 5,
-    neutral: 20,
-    bad: 3,
     // good: 0,
     // neutral: 0,
     // bad: 0,
+    good: 5,
+    neutral: 20,
+    bad: 3,
   };
 
   totalFeedback() {
