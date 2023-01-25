@@ -1,11 +1,13 @@
 import { Component } from 'react';
+// import FeedbackRenderBtn from './FeedbackRenderBtn';
+import Statistic from './Statistic';
 
 import styles from './feedback.module.scss';
 
 class Feedback extends Component {
   state = {
-    good: 0,
-    neutral: 0,
+    good: 10,
+    neutral: 2,
     bad: 0,
   };
 
@@ -30,17 +32,18 @@ class Feedback extends Component {
   render() {
     const { good, neutral, bad } = this.state;
     const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage();
     const element = !total ? (
       <p>No feedback given</p>
     ) : (
       <>
-        <p className={styles.feedback}>Good: {good}</p>
-        <p className={styles.feedback}>Neutral: {neutral}</p>
-        <p className={styles.feedback}>Bad: {bad}</p>
-        <p className={styles.feedback}>Total: {total}</p>
-        <p className={styles.feedback}>
-          Positive feedback: {this.countPositiveFeedbackPercentage()}%
-        </p>
+        <Statistic
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positivePercentage={positivePercentage}
+        />
       </>
     );
 
