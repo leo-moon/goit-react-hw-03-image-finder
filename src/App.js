@@ -1,9 +1,9 @@
-import Feedback from './Modules/Feedback/Feedback';
+import ImageFinder from './Modules/ImageFinder/ImageFinder';
 
 export function App() {
   return (
     <>
-      <Feedback />
+      <ImageFinder />
     </>
   );
 }
