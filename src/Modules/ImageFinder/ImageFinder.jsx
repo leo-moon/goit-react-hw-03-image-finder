@@ -9,6 +9,7 @@ class ImageFinder extends Component {
         <ul>
           <li>
             <p>Hi</p>
+            {/* Searchbar>, <ImageGallery>, <ImageGalleryItem>, <Loader>, <Button> и <Modal></Modal> */}
           </li>
         </ul>
       </>
