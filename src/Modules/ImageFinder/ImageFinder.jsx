@@ -4,7 +4,7 @@ import axios from 'axios';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 
-// import styles from './ImageGallery/image-gallery.module.scss'; 
+// import styles from './ImageGallery/image-gallery.module.scss';
 
 const URL_BASE = 'https://pixabay.com/api/?';
 const KEY = 'key=32187725-9ebb8484d7ffd0cb9d2ef83f1';
@@ -18,6 +18,10 @@ class ImageFinder extends Component {
     items: [],
     loading: false,
     error: null,
+  };
+
+  searchImages = ({ search }) => {
+    this.setState({ search });
   };
 
   componentDidMount() {
@@ -44,10 +48,12 @@ class ImageFinder extends Component {
 
   render() {
     const { items, loading, error } = this.state;
+    const { searchImages } = this
+    
 
     return (
       <>
-        <Searchbar />
+        <Searchbar onSubmit={searchImages} />
         {/* <ImageGallery /> */}
         {loading && <p>...LOADING</p>}
         {error && <p>Something goes wrong</p>}
