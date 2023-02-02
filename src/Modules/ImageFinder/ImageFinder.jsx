@@ -2,21 +2,22 @@ import { Component } from 'react';
 import axios from 'axios';
 
 import Searchbar from './Searchbar/Searchbar';
+import ImageGallery from './ImageGallery/ImageGallery';
 
-import styles from './ImageGallery/image-gallery.module.scss';
+// import styles from './ImageGallery/image-gallery.module.scss'; 
 
-const URL_BASE ='https://pixabay.com/api/?';
+const URL_BASE = 'https://pixabay.com/api/?';
 const KEY = 'key=32187725-9ebb8484d7ffd0cb9d2ef83f1';
-const per_page = 12
-let page = 1
+const per_page = 12;
+let page = 1;
 let parametrs = `&image_type=photo&orientation=horizontal&per_page=${per_page}&page=${page}  `;
-let urlForFitch = URL_BASE + KEY + parametrs
+let urlForFitch = URL_BASE + KEY + parametrs;
 
 class ImageFinder extends Component {
   state = {
     items: [],
     loading: false,
-    error: null
+    error: null,
   };
 
   componentDidMount() {
@@ -27,7 +28,7 @@ class ImageFinder extends Component {
         this.setState({ items: data.hits, loading: false });
       })
       .catch(error => {
-        this.setState({error: error.message})
+        this.setState({ error: error.message });
         console.log(error.message);
       })
       .finally(this.setState({ loading: false }));
@@ -44,19 +45,14 @@ class ImageFinder extends Component {
   render() {
     const { items, loading, error } = this.state;
 
-    // if (!items ) return
-    const elementsLi = items.map(({ id, webformatURL, largeImageURL }) => (
-      <li className={styles.item} key={id}>
-        <img className={styles.item__image} src={webformatURL} alt="nature" />
-      </li>
-    ));
     return (
       <>
         <Searchbar />
         {/* <ImageGallery /> */}
         {loading && <p>...LOADING</p>}
         {error && <p>Something goes wrong</p>}
-        <ul className={styles.gallery}>{elementsLi}</ul>
+
+        <ImageGallery items={items} />
       </>
     );
   }
