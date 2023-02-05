@@ -1,7 +1,7 @@
 import styles from './loader.module.scss';
 
 const Loader = () => {
-  return true;
+  return true;// replay
 };
 
 export default Loader;
