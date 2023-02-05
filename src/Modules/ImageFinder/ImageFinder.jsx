@@ -8,6 +8,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import { searchNewImages } from '../../shared/services/image-api';
 import { startImages } from '../../shared/services/image-api';
 import Button from './ButtonLoad/ButtonLoad';
+import Loader from './Loader/Loader';
 
 import './image-finder.module.scss';
 
@@ -113,13 +114,13 @@ class ImageFinder extends Component {
       <>
         <Searchbar onSubmit={searchImages} />
 
-        {loading && <p>...LOADING</p>}
+        {loading && <Loader />}
         {error && <p>Something goes wrong</p>}
 
         <ImageGallery items={items} showBigImage={showBigImage} />
 
-        {showLoadButton() && <Button changePage={changePage}></Button>}
-
+        {showLoadButton() && (
+          <Button changePage={changePage}></Button>)}
         {showModal && (
           <Modal close={closeModal}>
             <ImageBig imageBig={imageBig} />
