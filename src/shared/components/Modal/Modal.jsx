@@ -24,6 +24,7 @@ class Modal extends Component {
 
   render() {
     const { children, closeModal } = this.props;
+    console.log(closeModal)
     const { closeImage } = this;
     return createPortal(
       <div className={styles.overlay} onClick={closeImage}>
