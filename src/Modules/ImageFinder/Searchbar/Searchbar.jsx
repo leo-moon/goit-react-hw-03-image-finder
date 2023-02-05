@@ -5,7 +5,7 @@ import styles from './searchbar.module.scss';
 
 class Searchbar extends Component {
   state = {
-    search: 'us navy',
+    search: '',
   };
 
   handleChange = ({ target }) => {
@@ -27,20 +27,17 @@ class Searchbar extends Component {
   };
 
   reset() {
-    // this.setState({ ...initState });
     this.setState({ search: '' });
   }
 
   render() {
     const { search } = this.state;
-    // console.log(search)
     const { handleChange, handleSubmit } = this;
     return (
       <header className={styles.searchbar}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <button type="submit" className={styles.button}>
             Search
-            {/* <span className={styles.button__label}>Search</span> */}
           </button>
 
           <input

@@ -14,7 +14,7 @@ import './image-finder.module.scss';
 class ImageFinder extends Component {
   state = {
     items: [],
-    per_page: 3,
+    per_page: 12,
     page: 1,
     loading: false,
     error: null,
@@ -28,6 +28,21 @@ class ImageFinder extends Component {
 
   changePage = () => {
     this.setState(({ page }) => ({ page: page + 1 }));
+  };
+
+  showLoadButton = () => {
+    const { total, page, per_page } = this.state;
+    console.log(
+      '77777777777777',
+      total,
+      page,
+      per_page,
+      total <= page * per_page
+    );
+    if (total <= page * per_page) {
+      return false;
+    }
+    return true;
   };
 
   showBigImage = ({ largeImageURL }) => {
@@ -86,7 +101,13 @@ class ImageFinder extends Component {
 
   render() {
     const { items, loading, error, showModal, imageBig } = this.state;
-    const { searchImages, changePage, showBigImage, closeModal } = this;
+    const {
+      searchImages,
+      showLoadButton,
+      changePage,
+      showBigImage,
+      closeModal,
+    } = this;
     // console.log('render', this);
     return (
       <>
@@ -97,7 +118,7 @@ class ImageFinder extends Component {
 
         <ImageGallery items={items} showBigImage={showBigImage} />
 
-        {Boolean(items.length) && <Button changePage={changePage}></Button>}
+        {showLoadButton() && <Button changePage={changePage}></Button>}
 
         {showModal && (
           <Modal closeModal={closeModal}>
