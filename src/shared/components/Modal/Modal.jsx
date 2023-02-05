@@ -7,6 +7,7 @@ const modalAbove = document.querySelector('#modal-root');
 
 class Modal extends Component {
   componentDidMount() {
+    // document.addEventListener('keydown', this.closeModal);
     document.addEventListener('keydown', this.closeModal);
   }
 
@@ -14,20 +15,21 @@ class Modal extends Component {
     document.removeEventListener('keydown', this.closeModal);
   }
 
-  closeImage = ({ target, currentTarget, code }) => {
+  closeModal = ({ target, currentTarget, code }) => {
     console.log('target', target);
     console.log('currentTarget', currentTarget);
-    if (target === currentTarget || code === 'Escape') {
-      this.props.closeModal();
+    console.log(code, code === 'Escape');
+    if (target === currentTarget ||  code  === 'Escape') {
+      this.props.close();
     }
   };
 
   render() {
-    const { children, closeModal } = this.props;
-    console.log(closeModal)
-    const { closeImage } = this;
+    const { children, close } = this.props;
+    console.log(close);
+    const { closeModal } = this;
     return createPortal(
-      <div className={styles.overlay} onClick={closeImage}>
+      <div className={styles.overlay} onClick={closeModal}>
         <div className={styles.modal}>{children}</div>
       </div>,
       modalAbove

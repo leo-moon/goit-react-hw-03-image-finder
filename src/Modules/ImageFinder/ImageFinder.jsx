@@ -121,7 +121,7 @@ class ImageFinder extends Component {
         {showLoadButton() && <Button changePage={changePage}></Button>}
 
         {showModal && (
-          <Modal closeModal={closeModal}>
+          <Modal close={closeModal}>
             <ImageBig imageBig={imageBig} />
           </Modal>
         )}
