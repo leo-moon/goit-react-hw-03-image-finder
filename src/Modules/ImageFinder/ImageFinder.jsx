@@ -109,18 +109,16 @@ class ImageFinder extends Component {
       showBigImage,
       closeModal,
     } = this;
-    // console.log('render', this);
+    console.log('render', loading, { loading });
     return (
       <>
         <Searchbar onSubmit={searchImages} />
-
-        {loading && <Loader />}
         {error && <p>Something goes wrong</p>}
 
-        <ImageGallery items={items} showBigImage={showBigImage} />
+        {loading && <Loader />}
+        {!loading && <ImageGallery items={items} showBigImage={showBigImage} />}
 
-        {showLoadButton() && (
-          <Button changePage={changePage}></Button>)}
+        {!loading && showLoadButton() && <Button changePage={changePage}></Button>}
         {showModal && (
           <Modal close={closeModal}>
             <ImageBig imageBig={imageBig} />
