@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import styles from './searchbar.module.scss';
 
-class SearchForm extends Component {
+class Searchbar extends Component {
   state = {
-    search: '',
+    search: 'us navy',
   };
 
   handleChange = ({ target }) => {
@@ -19,6 +19,7 @@ class SearchForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { onSubmit } = this.props;
+    console.log('handleSubmit', { ...this.state });
     const result = onSubmit({ ...this.state });
     if (result) {
       this.reset();
@@ -32,22 +33,19 @@ class SearchForm extends Component {
 
   render() {
     const { search } = this.state;
+    // console.log(search)
     const { handleChange, handleSubmit } = this;
     return (
       <header className={styles.searchbar}>
-        <form className={styles.form}>
-          <button
-            onSubmit={handleSubmit}
-            type="submit"
-            className={styles.button}
-          >
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <button type="submit" className={styles.button}>
             Search
-            <span className={styles.button__label}>Search</span>
+            {/* <span className={styles.button__label}>Search</span> */}
           </button>
 
           <input
             onChange={handleChange}
-            name="value"
+            name="search"
             value={search}
             className={styles.input}
             type="text"
@@ -62,8 +60,8 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+export default Searchbar;
 
-SearchForm.propTypes = {
+Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };

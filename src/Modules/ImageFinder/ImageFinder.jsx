@@ -1,35 +1,56 @@
 import { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
+import Modal from 'shared/components/Modal/Modal';
+import ImageBig from './ImageBig/ImageBig';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
+import { searchNewImages } from '../../shared/services/image-api';
+import { startImages } from '../../shared/services/image-api';
+import Button from './ButtonLoad/ButtonLoad';
 
-// import styles from './ImageGallery/image-gallery.module.scss';
-
-const URL_BASE = 'https://pixabay.com/api/?';
-const KEY = 'key=32187725-9ebb8484d7ffd0cb9d2ef83f1';
-const per_page = 12;
-let page = 1;
-let parametrs = `&image_type=photo&orientation=horizontal&per_page=${per_page}&page=${page}  `;
-let urlForFitch = URL_BASE + KEY + parametrs;
+import './image-finder.module.scss';
 
 class ImageFinder extends Component {
   state = {
     items: [],
+    per_page: 3,
+    page: 1,
     loading: false,
     error: null,
+    showModal: false,
+    imageBig: null,
   };
 
   searchImages = ({ search }) => {
-    this.setState({ search });
+    this.setState({ search, items: [], page: 1 });
+  };
+
+  changePage = () => {
+    this.setState(({ page }) => ({ page: page + 1 }));
+  };
+
+  showBigImage = ({ largeImageURL }) => {
+    console.log(largeImageURL);
+    this.setState({
+      imageBig: largeImageURL,
+      showModal: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+      imageBig: null,
+    });
   };
 
   componentDidMount() {
     this.setState({ loading: true });
-    axios
-      .get(urlForFitch)
+    const { per_page } = this.state;
+    startImages(per_page)
       .then(({ data }) => {
-        this.setState({ items: data.hits, loading: false });
+        this.setState({ items: data.hits, total: data.totalHits });
       })
       .catch(error => {
         this.setState({ error: error.message });
@@ -38,30 +59,54 @@ class ImageFinder extends Component {
       .finally(this.setState({ loading: false }));
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { contacts } = this.state;
-  //   if (contacts.length !== prevState.contacts.length)
-  //     localStorage.setItem('phonebook', JSON.stringify(contacts));
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { search, page } = this.state;
+    if (search !== prevState.search || page !== prevState.page) {
+      this.fetchImages();
+    }
+  }
 
-  componentDidUpdate() {}
+  async fetchImages() {
+    try {
+      this.setState({ loading: true });
+      const { search, per_page, page } = this.state;
+      const { data } = await searchNewImages(search, per_page, page);
+      console.log(data);
+
+      this.setState(({ items }) => ({
+        items: [...items, ...data.hits],
+        total: data.totalHits,
+      }));
+    } catch (error) {
+      this.setState({ error: error.message });
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
 
   render() {
-    const { items, loading, error } = this.state;
-    const { searchImages } = this
-    
-
+    const { items, loading, error, showModal, imageBig } = this.state;
+    const { searchImages, changePage, showBigImage, closeModal } = this;
+    // console.log('render', this);
     return (
       <>
         <Searchbar onSubmit={searchImages} />
-        {/* <ImageGallery /> */}
+
         {loading && <p>...LOADING</p>}
         {error && <p>Something goes wrong</p>}
 
-        <ImageGallery items={items} />
+        <ImageGallery items={items} showBigImage={showBigImage} />
+
+        {Boolean(items.length) && <Button changePage={changePage}></Button>}
+
+        {showModal && (
+          <Modal closeModal={closeModal}>
+            <ImageBig imageBig={imageBig} />
+          </Modal>
+        )}
       </>
     );
   }
 }
 
-export default ImageFinder;
+export default ImageFinder; //
